@@ -9,11 +9,20 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+    html {
+      scroll-behavior: smooth; /* Enable smooth scrolling for anchor links */
+    }
     body {
       /* Darker, graphite-like background */
       font-family: 'Inter', sans-serif;
       background-color: #121212; /* Very dark charcoal */
       color: #e0e0e0; /* Light gray text */
+      /* Ensure body takes full height for scrolling and contains content */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content horizontally */
+      padding: 1rem;
     }
     .blinking-cursor {
       display: inline-block;
@@ -45,21 +54,118 @@
       font-size: 1rem;
       line-height: 1.5; /* Explicit line-height for consistent alignment */
     }
+    /* Style for the initial intro panel to ensure it takes at least the screen height */
+    .intro-panel-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; /* Ensures it takes at least the full viewport height */
+        width: 100%;
+        max-width: 100%; /* Ensure it doesn't break out on small screens */
+    }
   </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
-  <div class="text-center bg-neutral-900 bg-opacity-75 p-8 sm:p-12 md:p-16 rounded-2xl shadow-xl max-w-xl w-full">
-    <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold text-[#AAB8C2] mb-4 tracking-tight">
-      GraphiteLang
-    </h1>
+<body class="p-4">
+  <div class="intro-panel-container">
+    <div class="text-center bg-neutral-900 bg-opacity-75 p-8 sm:p-12 md:p-16 rounded-2xl shadow-xl max-w-xl w-full mx-auto">
+      <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold text-[#AAB8C2] mb-4 tracking-tight">
+        GraphiteLang
+      </h1>
 
-    <p class="text-md sm:text-lg text-neutral-400 mt-6 max-w-md mx-auto">
-      A C styled, nim based, multi-level, multi-paradigm programming language. Stay tuned for updates!
-    </p>
+      <p class="text-md sm:text-lg text-neutral-400 mt-6 max-w-md mx-auto">
+        A C styled, nim based, multi-level, multi-paradigm programming language. Stay tuned for updates!
+      </p>
 
-    <!-- Decorative code block with blinking cursor -->
-    <div class="code-style">
-      Coming Soon...<span class="blinking-cursor"></span>
+      <!-- Decorative code block with blinking cursor -->
+      <div class="code-style">
+        Coming Soon...<span class="blinking-cursor"></span>
+      </div>
+
+      <!-- View Features Button -->
+      <div class="mt-8">
+        <a href="#features-panel" class="inline-block bg-[#AAB8C2] text-gray-900 font-bold py-3 px-6 rounded-lg shadow-md hover:bg-[#CAD4D8] transition duration-300 ease-in-out">
+          View Features
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Features Panel -->
+  <div id="features-panel" class="text-left bg-neutral-900 bg-opacity-75 p-8 sm:p-12 md:p-16 rounded-2xl shadow-xl max-w-xl w-full mt-8 mx-auto">
+    <h2 class="text-4xl sm:text-5xl font-extrabold text-[#AAB8C2] mb-6">
+      ✨ Features
+    </h2>
+    <!-- Changed to single column layout -->
+    <div class="grid grid-cols-1 gap-8 text-neutral-300">
+      <div class="p-4 rounded-lg bg-neutral-800 shadow-md">
+        <h3 class="text-xl font-bold text-neutral-200 mb-2">🧠 Memory:</h3>
+        <ul class="space-y-3 pl-4 text-neutral-400">
+          <li>
+            <span class="font-semibold text-neutral-300">nim-ORC:</span> A modern, compile-time garbage collector designed for performance and determinism.
+          </li>
+          <li>
+            <span class="font-semibold text-neutral-300">nim-ARC:</span> Provides automatic memory management with predictable deallocation.
+          </li>
+          <li>
+            <span class="font-semibold text-neutral-300">nim-Boehm:</span> A conservative garbage collector for compatibility and ease of use with C FFI.
+          </li>
+          <li>
+            <span class="font-semibold text-neutral-300">nim-Go:</span> A concurrent, tri-color mark-and-sweep garbage collector for highly concurrent applications.
+          </li>
+          <li>
+            <span class="font-semibold text-neutral-300">Graphite-Implicit Ownership:</span> Graphite's unique memory model aiming for C-like performance with Rust-like safety, without explicit annotations.
+          </li>
+        </ul>
+      </div>
+      <div class="p-4 rounded-lg bg-neutral-800 shadow-md">
+        <h3 class="text-xl font-bold text-neutral-200 mb-2">🏗️ Constructs:</h3>
+        <ul class="space-y-3 pl-4 text-neutral-400">
+          <li>
+            <span class="font-semibold text-neutral-300">Tuples:</span> Fixed-size collections of anonymous fields.
+          </li>
+          <li>
+            <span class="font-semibold text-neutral-300">Interfaces:</span> Dataless views, which map identity onto tuples by shape, and provide behavior.
+          </li>
+          <li>
+            <span class="font-semibold text-neutral-300">Structs:</span> Traditional Struct, a Tuple/Interface pair.
+          </li>
+          <li>
+            <span class="font-semibold text-neutral-300">Classes:</span> Typical instantiable namespace.
+          </li>
+          <li>
+            <span class="font-semibold text-neutral-300">Actors:</span> Threaded, memory isolated Classes.
+          </li>
+        </ul>
+      </div>
+      <div class="p-4 rounded-lg bg-neutral-800 shadow-md">
+        <h3 class="text-xl font-bold text-neutral-200 mb-2">⚡ Concurrency:</h3>
+        <ul class="space-y-3 pl-4 text-neutral-400">
+          <li>
+            <span class="font-semibold text-neutral-300">Coroutines:</span> Lightweight, cooperative functions that allow for non-blocking asynchronous programming.
+          </li>
+          <li>
+            <span class="font-semibold text-neutral-300">Actors:</span> Independent, message-passing entities that facilitate safe concurrent execution.
+          </li>
+          <li>
+            <span class="font-semibold text-neutral-300">Work Groups:</span> Mechanism for grouping and managing related tasks or threads for efficient parallel processing.
+          </li>
+        </ul>
+      </div>
+      <div class="p-4 rounded-lg bg-neutral-800 shadow-md">
+        <h3 class="text-xl font-bold text-neutral-200 mb-2">⚙️ Core Features:</h3>
+        <ul class="space-y-3 pl-4 text-neutral-400">
+            <li>
+              <span class="font-semibold text-neutral-300">Dynamic Containers:</span> Flexible data structures that can grow or shrink at runtime, like lists and hash maps.
+            </li>
+            <li>
+              <span class="font-semibold text-neutral-300">Async Expression:</span> Expressions which evaluate without blocking, crucial for I/O and concurrent tasks.
+            </li>
+            <li>
+              <span class="font-semibold text-neutral-300">Deferred Expressions:</span> Expressions that evaluate automatically when the surrounding scope exits, useful for cleanup.
+            </li>
+        </ul>
+      </div>
     </div>
   </div>
 </body>
