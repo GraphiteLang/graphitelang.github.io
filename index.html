@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- Made with Gemini -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -10,29 +9,25 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
     html {
-      scroll-behavior: smooth; /* Enable smooth scrolling for anchor links */
+      scroll-behavior: smooth;
     }
     body {
-      /* Darker, graphite-like background */
       font-family: 'Inter', sans-serif;
-      background-color: #121212; /* Very dark charcoal */
-      color: #e0e0e0; /* Light gray text */
-      /* Ensure body takes full height for scrolling and contains content */
+      background-color: #121212;
+      color: #e0e0e0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center; /* Center content horizontally */
+      align-items: center;
       padding: 1rem;
     }
     .blinking-cursor {
       display: inline-block;
       width: 8px;
       height: 1em;
-      /* Cursor color matching new general text color */
       background-color: #e0e0e0;
       animation: blink 1s steps(1) infinite;
-      /* Adjusted for better vertical alignment within the line */
-      vertical-align: middle; /* Align the middle of the element with the middle of the parent */
+      vertical-align: middle;
       margin-left: 2px;
     }
     @keyframes blink {
@@ -42,9 +37,7 @@
     .code-style {
       user-select: none;
       pointer-events: none;
-      /* Darker background for code block */
       background-color: #1e1e1e;
-      /* Medium gray for code text */
       color: #888888;
       font-family: Consolas, Monaco, 'Courier New', monospace;
       padding: 1rem;
@@ -52,17 +45,141 @@
       white-space: pre;
       margin-top: 2rem;
       font-size: 1rem;
-      line-height: 1.5; /* Explicit line-height for consistent alignment */
+      line-height: 1.5;
+      /* Align text to the left within the block */
+      text-align: left;
+      /* Removed margin-left: auto, margin-right: auto, and width: fit-content */
+      /* This makes the block take full width and text aligns left within it */
     }
-    /* Style for the initial intro panel to ensure it takes at least the screen height */
     .intro-panel-container {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        min-height: 100vh; /* Ensures it takes at least the full viewport height */
+        min-height: 100vh;
         width: 100%;
-        max-width: 100%; /* Ensure it doesn't break out on small screens */
+        max-width: 100%;
+    }
+
+    /* Carousel Styles */
+    .carousel-container {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      padding: 2rem 0;
+    }
+
+    .carousel-track {
+      display: flex;
+      animation: scroll 90s linear infinite;
+      width: max-content;
+    }
+
+    .carousel-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .feature-card {
+      flex: 0 0 320px;
+      margin-right: 1.5rem;
+      background-color: #1e1e1e;
+      border: 1px solid #333333;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      font-family: Consolas, Monaco, 'Courier New', monospace;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+      border-color: #AAB8C2;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #AAB8C2, #6b7280);
+    }
+
+    .feature-title {
+      color: #AAB8C2;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      font-family: Consolas, Monaco, 'Courier New', monospace;
+    }
+
+    .feature-title::before {
+      content: '// ';
+      color: #6b7280;
+      font-weight: normal;
+    }
+
+    .feature-description {
+      color: #9ca3af;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      font-family: Consolas, Monaco, 'Courier New', monospace;
+      white-space: pre-line;
+    }
+
+    .feature-tag {
+      display: inline-block;
+      background-color: #2d2d2d;
+      color: #888888;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-top: 1rem;
+      font-family: Consolas, Monaco, 'Courier New', monospace;
+      border: 1px solid #404040;
+    }
+
+    .feature-tag::before {
+      content: '/* ';
+      color: #6b7280;
+    }
+
+    .feature-tag::after {
+      content: ' */';
+      color: #6b7280;
+    }
+
+    .carousel-gradient-left,
+    .carousel-gradient-right {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .carousel-gradient-left {
+      left: 0;
+      background: linear-gradient(to right, #121212, transparent);
+    }
+
+    .carousel-gradient-right {
+      right: 0;
+      background: linear-gradient(to left, #121212, transparent);
     }
   </style>
 </head>
@@ -79,92 +196,320 @@
 
       <!-- Decorative code block with blinking cursor -->
       <div class="code-style">
-        Coming Soon...<span class="blinking-cursor"></span>
-      </div>
-
-      <!-- View Features Button -->
-      <div class="mt-8">
-        <a href="#features-panel" class="inline-block bg-[#AAB8C2] text-gray-900 font-bold py-3 px-6 rounded-lg shadow-md hover:bg-[#CAD4D8] transition duration-300 ease-in-out">
-          View Features
-        </a>
+      // Coming Soon...<span class="blinking-cursor"></span>
       </div>
     </div>
-  </div>
 
-  <!-- New Features Panel -->
-  <div id="features-panel" class="text-left bg-neutral-900 bg-opacity-75 p-8 sm:p-12 md:p-16 rounded-2xl shadow-xl max-w-xl w-full mt-8 mx-auto">
-    <h2 class="text-4xl sm:text-5xl font-extrabold text-[#AAB8C2] mb-6">
-      ✨ Features
-    </h2>
-    <!-- Changed to single column layout -->
-    <div class="grid grid-cols-1 gap-8 text-neutral-300">
-      <div class="p-4 rounded-lg bg-neutral-800 shadow-md">
-        <h3 class="text-xl font-bold text-neutral-200 mb-2">🧠 Memory:</h3>
-        <ul class="space-y-3 pl-4 text-neutral-400">
-          <li>
-            <span class="font-semibold text-neutral-300">nim-ORC:</span> A modern, compile-time garbage collector designed for performance and determinism.
-          </li>
-          <li>
-            <span class="font-semibold text-neutral-300">nim-ARC:</span> Provides automatic memory management with predictable deallocation.
-          </li>
-          <li>
-            <span class="font-semibold text-neutral-300">nim-Boehm:</span> A conservative garbage collector for compatibility and ease of use with C FFI.
-          </li>
-          <li>
-            <span class="font-semibold text-neutral-300">nim-Go:</span> A concurrent, tri-color mark-and-sweep garbage collector for highly concurrent applications.
-          </li>
-          <li>
-            <span class="font-semibold text-neutral-300">Graphite-Implicit Ownership:</span> Graphite's unique memory model aiming for C-like performance with Rust-like safety, without explicit annotations.
-          </li>
-        </ul>
+    <!-- Features Carousel -->
+    <div id="features-carousel" class="carousel-container">
+      <div class="carousel-gradient-left"></div>
+      <div class="carousel-gradient-right"></div>
+
+      <div class="carousel-track">
+      <!-- Memory Management Cards -->
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>nim-ORC</span>
+        </div>
+        <div class="feature-description">
+          A modern, compile-time garbage collector designed for performance and determinism.
+        </div>
+        <div class="feature-tag">Memory</div>
       </div>
-      <div class="p-4 rounded-lg bg-neutral-800 shadow-md">
-        <h3 class="text-xl font-bold text-neutral-200 mb-2">🏗️ Constructs:</h3>
-        <ul class="space-y-3 pl-4 text-neutral-400">
-          <li>
-            <span class="font-semibold text-neutral-300">Tuples:</span> Fixed-size collections of anonymous fields.
-          </li>
-          <li>
-            <span class="font-semibold text-neutral-300">Interfaces:</span> Dataless views, which map identity onto tuples by shape, and provide behavior.
-          </li>
-          <li>
-            <span class="font-semibold text-neutral-300">Structs:</span> Traditional Struct, a Tuple/Interface pair.
-          </li>
-          <li>
-            <span class="font-semibold text-neutral-300">Classes:</span> Typical instantiable namespace.
-          </li>
-          <li>
-            <span class="font-semibold text-neutral-300">Actors:</span> Threaded, memory isolated Classes.
-          </li>
-        </ul>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>nim-ARC</span>
+        </div>
+        <div class="feature-description">
+          Provides automatic memory management with predictable deallocation.
+        </div>
+        <div class="feature-tag">Memory</div>
       </div>
-      <div class="p-4 rounded-lg bg-neutral-800 shadow-md">
-        <h3 class="text-xl font-bold text-neutral-200 mb-2">⚡ Concurrency:</h3>
-        <ul class="space-y-3 pl-4 text-neutral-400">
-          <li>
-            <span class="font-semibold text-neutral-300">Coroutines:</span> Lightweight, cooperative functions that allow for non-blocking asynchronous programming.
-          </li>
-          <li>
-            <span class="font-semibold text-neutral-300">Actors:</span> Independent, message-passing entities that facilitate safe concurrent execution.
-          </li>
-          <li>
-            <span class="font-semibold text-neutral-300">Work Groups:</span> Mechanism for grouping and managing related tasks or threads for efficient parallel processing.
-          </li>
-        </ul>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>nim-Boehm</span>
+        </div>
+        <div class="feature-description">
+          A conservative garbage collector for compatibility and ease of use with C FFI.
+        </div>
+        <div class="feature-tag">Memory</div>
       </div>
-      <div class="p-4 rounded-lg bg-neutral-800 shadow-md">
-        <h3 class="text-xl font-bold text-neutral-200 mb-2">⚙️ Core Features:</h3>
-        <ul class="space-y-3 pl-4 text-neutral-400">
-            <li>
-              <span class="font-semibold text-neutral-300">Dynamic Containers:</span> Flexible data structures that can grow or shrink at runtime, like lists and hash maps.
-            </li>
-            <li>
-              <span class="font-semibold text-neutral-300">Async Expression:</span> Expressions which evaluate without blocking, crucial for I/O and concurrent tasks.
-            </li>
-            <li>
-              <span class="font-semibold text-neutral-300">Deferred Expressions:</span> Expressions that evaluate automatically when the surrounding scope exits, useful for cleanup.
-            </li>
-        </ul>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>nim-Go</span>
+        </div>
+        <div class="feature-description">
+          A concurrent, tri-color mark-and-sweep garbage collector for highly concurrent applications.
+        </div>
+        <div class="feature-tag">Memory</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Implicit Ownership</span>
+        </div>
+        <div class="feature-description">
+          Graphite's unique memory model aiming for C-like performance with Rust-like safety, without explicit annotations.
+        </div>
+        <div class="feature-tag">Memory</div>
+      </div>
+
+      <!-- Constructs Cards -->
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Tuples</span>
+        </div>
+        <div class="feature-description">
+          Fixed-size collections of anonymous fields for structured data organization.
+        </div>
+        <div class="feature-tag">Constructs</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Interfaces</span>
+        </div>
+        <div class="feature-description">
+          Dataless views which map identity onto tuples by shape and provide behavior.
+        </div>
+        <div class="feature-tag">Constructs</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Structs</span>
+        </div>
+        <div class="feature-description">
+          Traditional Struct implementation as a Tuple/Interface pair.
+        </div>
+        <div class="feature-tag">Constructs</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Classes</span>
+        </div>
+        <div class="feature-description">
+          Typical instantiable namespace for object-oriented programming patterns.
+        </div>
+        <div class="feature-tag">Constructs</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Actors</span>
+        </div>
+        <div class="feature-description">
+          Threaded, memory isolated Classes for safe concurrent programming.
+        </div>
+        <div class="feature-tag">Constructs</div>
+      </div>
+
+      <!-- Concurrency Cards -->
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Coroutines</span>
+        </div>
+        <div class="feature-description">
+          Lightweight, cooperative functions that allow for non-blocking asynchronous programming.
+        </div>
+        <div class="feature-tag">Concurrency</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Work Groups</span>
+        </div>
+        <div class="feature-description">
+          Mechanism for grouping and managing related tasks or threads for efficient parallel processing.
+        </div>
+        <div class="feature-tag">Concurrency</div>
+      </div>
+
+      <!-- Core Features Cards -->
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Dynamic Containers</span>
+        </div>
+        <div class="feature-description">
+          Flexible data structures that can grow or shrink at runtime, like lists and hash maps.
+        </div>
+        <div class="feature-tag">Core</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Async Expression</span>
+        </div>
+        <div class="feature-description">
+          Expressions which evaluate without blocking, crucial for I/O and concurrent tasks.
+        </div>
+        <div class="feature-tag">Core</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Deferred Expressions</span>
+        </div>
+        <div class="feature-description">
+          Expressions that evaluate automatically when the surrounding scope exits, useful for cleanup.
+        </div>
+        <div class="feature-tag">Core</div>
+      </div>
+
+      <!-- Duplicate the cards for seamless looping -->
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>nim-ORC</span>
+        </div>
+        <div class="feature-description">
+          A modern, compile-time garbage collector designed for performance and determinism.
+        </div>
+        <div class="feature-tag">Memory</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>nim-ARC</span>
+        </div>
+        <div class="feature-description">
+          Provides automatic memory management with predictable deallocation.
+        </div>
+        <div class="feature-tag">Memory</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>nim-Boehm</span>
+        </div>
+        <div class="feature-description">
+          A conservative garbage collector for compatibility and ease of use with C FFI.
+        </div>
+        <div class="feature-tag">Memory</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>nim-Go</span>
+        </div>
+        <div class="feature-description">
+          A concurrent, tri-color mark-and-sweep garbage collector for highly concurrent applications.
+        </div>
+        <div class="feature-tag">Memory</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Implicit Ownership</span>
+        </div>
+        <div class="feature-description">
+          Graphite's unique memory model aiming for C-like performance with Rust-like safety, without explicit annotations.
+        </div>
+        <div class="feature-tag">Memory</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Tuples</span>
+        </div>
+        <div class="feature-description">
+          Fixed-size collections of anonymous fields for structured data organization.
+        </div>
+        <div class="feature-tag">Constructs</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Interfaces</span>
+        </div>
+        <div class="feature-description">
+          Dataless views which map identity onto tuples by shape and provide behavior.
+        </div>
+        <div class="feature-tag">Constructs</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Structs</span>
+        </div>
+        <div class="feature-description">
+          Traditional Struct implementation as a Tuple/Interface pair.
+        </div>
+        <div class="feature-tag">Constructs</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Classes</span>
+        </div>
+        <div class="feature-description">
+          Typical instantiable namespace for object-oriented programming patterns.
+        </div>
+        <div class="feature-tag">Constructs</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Actors</span>
+        </div>
+        <div class="feature-description">
+          Threaded, memory isolated Classes for safe concurrent programming.
+        </div>
+        <div class="feature-tag">Constructs</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Coroutines</span>
+        </div>
+        <div class="feature-description">
+          Lightweight, cooperative functions that allow for non-blocking asynchronous programming.
+        </div>
+        <div class="feature-tag">Concurrency</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Work Groups</span>
+        </div>
+        <div class="feature-description">
+          Mechanism for grouping and managing related tasks or threads for efficient parallel processing.
+        </div>
+        <div class="feature-tag">Concurrency</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Dynamic Containers</span>
+        </div>
+        <div class="feature-description">
+          Flexible data structures that can grow or shrink at runtime, like lists and hash maps.
+        </div>
+        <div class="feature-tag">Core</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Async Expression</span>
+        </div>
+        <div class="feature-description">
+          Expressions which evaluate without blocking, crucial for I/O and concurrent tasks.
+        </div>
+        <div class="feature-tag">Core</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-title">
+          <span>Deferred Expressions</span>
+        </div>
+        <div class="feature-description">
+          Expressions that evaluate automatically when the surrounding scope exits, useful for cleanup.
+        </div>
+        <div class="feature-tag">Core</div>
+      </div>
       </div>
     </div>
   </div>
