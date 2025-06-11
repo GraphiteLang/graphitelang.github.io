@@ -1,35 +1,66 @@
 <!DOCTYPE html>
+<!-- Made with Gemini -->
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GraphiteLang - Coming Soon</title>
-    <!-- Tailwind CSS CDN for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Custom font for a clean, modern look */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a; /* Dark blue-gray background */
-            color: #e2e8f0; /* Light gray text for contrast */
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GraphiteLang - Coming Soon</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+    body {
+      /* Darker, graphite-like background */
+      font-family: 'Inter', sans-serif;
+      background-color: #121212; /* Very dark charcoal */
+      color: #e0e0e0; /* Light gray text */
+    }
+    .blinking-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      /* Cursor color matching new general text color */
+      background-color: #e0e0e0;
+      animation: blink 1s steps(1) infinite;
+      /* Adjusted for better vertical alignment within the line */
+      vertical-align: middle; /* Align the middle of the element with the middle of the parent */
+      margin-left: 2px;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .code-style {
+      user-select: none;
+      pointer-events: none;
+      /* Darker background for code block */
+      background-color: #1e1e1e;
+      /* Medium gray for code text */
+      color: #888888;
+      font-family: Consolas, Monaco, 'Courier New', monospace;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      white-space: pre;
+      margin-top: 2rem;
+      font-size: 1rem;
+      line-height: 1.5; /* Explicit line-height for consistent alignment */
+    }
+  </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
-    <div class="text-center bg-gray-800 bg-opacity-70 p-8 sm:p-12 md:p-16 rounded-2xl shadow-xl max-w-xl w-full">
-        <!-- Main heading for the language name -->
-        <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold text-blue-400 mb-4 tracking-tight">
-            GraphiteLang
-        </h1>
-        <!-- Subheading for the coming soon message -->
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-300 mt-2">
-            Coming Soon
-        </h2>
-        <!-- Optional: A small descriptive line -->
-        <p class="text-md sm:text-lg text-gray-400 mt-6 max-w-md mx-auto">
-            A C styled, nim based, multi-level, multi-paradigm programming language. Stay tuned for updates!
-        </p>
+  <div class="text-center bg-neutral-900 bg-opacity-75 p-8 sm:p-12 md:p-16 rounded-2xl shadow-xl max-w-xl w-full">
+    <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold text-[#AAB8C2] mb-4 tracking-tight">
+      GraphiteLang
+    </h1>
+
+    <p class="text-md sm:text-lg text-neutral-400 mt-6 max-w-md mx-auto">
+      A C styled, nim based, multi-level, multi-paradigm programming language. Stay tuned for updates!
+    </p>
+
+    <!-- Decorative code block with blinking cursor -->
+    <div class="code-style">
+      Coming Soon...<span class="blinking-cursor"></span>
     </div>
+  </div>
 </body>
 </html>
