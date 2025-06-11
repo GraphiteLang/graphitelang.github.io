@@ -1,517 +1,401 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GraphiteLang - Coming Soon</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-    html {
-      scroll-behavior: smooth;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #121212;
-      color: #e0e0e0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1rem;
-    }
-    .blinking-cursor {
-      display: inline-block;
-      width: 8px;
-      height: 1em;
-      background-color: #e0e0e0;
-      animation: blink 1s steps(1) infinite;
-      vertical-align: middle;
-      margin-left: 2px;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-    .code-style {
-      user-select: none;
-      pointer-events: none;
-      background-color: #1e1e1e;
-      color: #888888;
-      font-family: Consolas, Monaco, 'Courier New', monospace;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      white-space: pre;
-      margin-top: 2rem;
-      font-size: 1rem;
-      line-height: 1.5;
-      /* Align text to the left within the block */
-      text-align: left;
-      /* Removed margin-left: auto, margin-right: auto, and width: fit-content */
-      /* This makes the block take full width and text aligns left within it */
-    }
-    .intro-panel-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        width: 100%;
-        max-width: 100%;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>GraphiteLang - Coming Soon</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Added top padding to push content down from the top */
+            padding: 12rem 1rem 1rem;
+        }
+        .blinking-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1em;
+            background-color: #e0e0e0;
+            animation: blink 1s steps(1) infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .code-style {
+            user-select: none;
+            pointer-events: none;
+            background-color: #1e1e1e;
+            color: #888888;
+            font-family: Consolas, Monaco, 'Courier New', monospace;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            white-space: pre;
+            margin-top: 2rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            text-align: left;
+        }
+        .intro-panel-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* Removed min-height to allow padding to control the space */
+            width: 100%;
+            max-width: 100%;
+        }
 
-    /* Carousel Styles */
-    .carousel-container {
-      width: 100%;
-      overflow: hidden;
-      position: relative;
-      padding: 2rem 0;
-    }
+        /* Kanban Board Container - Now a vertical stack */
+        .kanban-board {
+            display: flex;
+            flex-direction: column; /* Stacks columns vertically */
+            gap: 1.5rem; /* Gap between vertical stacks */
+            width: 100%;
+            max-width: 800px; /* Reduced max-width for a "bar" feel */
+            margin-top: 2rem; /* Reduced margin-top for less space */
+            padding: 0 1rem;
+        }
 
-    .carousel-track {
-      display: flex;
-      animation: scroll 90s linear infinite;
-      width: max-content;
-    }
+        /* Kanban Stack/Column */
+        .kanban-stack {
+            background-color: #1e1e1e;
+            border: 1px solid #333333;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden; /* Important for collapse transition */
+        }
 
-    .carousel-track:hover {
-      animation-play-state: paused;
-    }
+        .kanban-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            background-color: #2a2a2a; /* Slightly darker header */
+            border-bottom: 1px solid #333333;
+            border-radius: 0.75rem 0.75rem 0 0; /* Rounded top corners only */
+            transition: background-color 0.3s ease;
+        }
 
-    @keyframes scroll {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-50%);
-      }
-    }
+        .kanban-header:hover {
+            background-color: #333333;
+        }
 
-    .feature-card {
-      flex: 0 0 320px;
-      margin-right: 1.5rem;
-      background-color: #1e1e1e;
-      border: 1px solid #333333;
-      border-radius: 0.5rem;
-      padding: 1.5rem;
-      transition: all 0.3s ease;
-      font-family: Consolas, Monaco, 'Courier New', monospace;
-      position: relative;
-      overflow: hidden;
-    }
+        .kanban-title {
+            font-size: 1.25rem; /* Slightly smaller for bars */
+            font-weight: 800;
+            color: #AAB8C2;
+            margin-bottom: 0; /* Remove margin */
+            text-align: left; /* Align title left */
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.05em;
+        }
 
-    .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
-      border-color: #AAB8C2;
-    }
+        .kanban-title::before {
+            content: '# ';
+            color: #6b7280;
+        }
 
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, #AAB8C2, #6b7280);
-    }
+        .toggle-button {
+            background: none;
+            border: none;
+            color: #AAB8C2;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            transition: transform 0.3s ease;
+        }
 
-    .feature-title {
-      color: #AAB8C2;
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-      font-family: Consolas, Monaco, 'Courier New', monospace;
-    }
+        .toggle-button.rotated {
+            transform: rotate(45deg);
+        }
 
-    .feature-title::before {
-      content: '// ';
-      color: #6b7280;
-      font-weight: normal;
-    }
+        .kanban-content {
+            max-height: 0; /* Collapsed state */
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out; /* Smooth transition */
+            padding: 0 1.5rem; /* Padding applied when open */
+        }
 
-    .feature-description {
-      color: #9ca3af;
-      font-size: 0.875rem;
-      line-height: 1.5;
-      font-family: Consolas, Monaco, 'Courier New', monospace;
-      white-space: pre-line;
-    }
+        .kanban-content.expanded {
+            max-height: 1000px; /* A large enough value to show all content */
+            padding: 1.5rem; /* Padding when expanded */
+        }
 
-    .feature-tag {
-      display: inline-block;
-      background-color: #2d2d2d;
-      color: #888888;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-      font-size: 0.75rem;
-      font-weight: 500;
-      margin-top: 1rem;
-      font-family: Consolas, Monaco, 'Courier New', monospace;
-      border: 1px solid #404040;
-    }
+        /* Feature Card within Kanban Stack - Refreshed Style */
+        .feature-card {
+            background-color: #2a2a2a; /* Slightly darker background */
+            border: 1px solid #3d3d3d;
+            border-left: 3px solid #6b7280; /* Left border for code block look */
+            border-radius: 0.375rem; /* Slightly smaller radius */
+            padding: 1rem 1.25rem;
+            font-family: Consolas, Monaco, 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            /* Added margin-bottom for vertical spacing */
+            margin-bottom: 1rem; 
+        }
 
-    .feature-tag::before {
-      content: '/* ';
-      color: #6b7280;
-    }
+        /* Remove the last card's bottom margin */
+        .feature-card:last-child {
+            margin-bottom: 0;
+        }
 
-    .feature-tag::after {
-      content: ' */';
-      color: #6b7280;
-    }
+        .feature-title {
+            color: #AAB8C2;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
 
-    .carousel-gradient-left,
-    .carousel-gradient-right {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 100px;
-      pointer-events: none;
-      z-index: 2;
-    }
+        .feature-title::before {
+            content: '// ';
+            color: #6b7280;
+            font-weight: normal;
+        }
 
-    .carousel-gradient-left {
-      left: 0;
-      background: linear-gradient(to right, #121212, transparent);
-    }
-
-    .carousel-gradient-right {
-      right: 0;
-      background: linear-gradient(to left, #121212, transparent);
-    }
-  </style>
+        .feature-description {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            white-space: pre-line;
+            flex-grow: 1;
+        }
+    </style>
 </head>
-<body class="p-4">
-  <div class="intro-panel-container">
-    <div class="text-center bg-neutral-900 bg-opacity-75 p-8 sm:p-12 md:p-16 rounded-2xl shadow-xl max-w-xl w-full mx-auto">
-      <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold text-[#AAB8C2] mb-4 tracking-tight">
-        GraphiteLang
-      </h1>
+<body>
+    <div class="intro-panel-container">
+        <!-- Removed text-center from this container -->
+        <div class="bg-neutral-900 bg-opacity-75 p-8 sm:p-12 md:p-16 rounded-2xl shadow-xl max-w-xl w-full mx-auto">
+            <!-- Added text-center directly to h1 -->
+            <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold text-[#AAB8C2] mb-4 tracking-tight text-center">
+                GraphiteLang
+            </h1>
 
-      <p class="text-md sm:text-lg text-neutral-400 mt-6 max-w-md mx-auto">
-        A C styled, nim based, multi-level, multi-paradigm programming language. Stay tuned for updates!
-      </p>
+            <!-- Added text-center directly to p -->
+            <p class="text-md sm:text-lg text-neutral-400 mt-6 max-w-md mx-auto text-center">
+                A C styled, nim based, multi-level, multi-paradigm programming language. Stay tuned for updates!
+            </p>
 
-      <!-- Decorative code block with blinking cursor -->
-      <div class="code-style">
-      // Coming Soon...<span class="blinking-cursor"></span>
-      </div>
+            <!-- This block will now be left-aligned by default -->
+            <div class="code-style">
+                // Coming Soon...<span class="blinking-cursor"></span>
+            </div>
+        </div>
     </div>
 
-    <!-- Features Carousel -->
-    <div id="features-carousel" class="carousel-container">
-      <div class="carousel-gradient-left"></div>
-      <div class="carousel-gradient-right"></div>
+    <!-- Kanban Board (now a vertical accordion) -->
+    <div class="kanban-board">
+        <!-- Core Features Stack (Moved to top) -->
+        <div class="kanban-stack">
+            <div class="kanban-header">
+                <h2 class="kanban-title">Core Features</h2>
+                <button class="toggle-button" aria-expanded="false">+</button>
+            </div>
+            <div class="kanban-content">
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>Dynamic Containers</span>
+                    </div>
+                    <div class="feature-description">
+                        Flexible data structures that can grow or shrink at runtime, like lists and hash maps.
+                    </div>
+                </div>
 
-      <div class="carousel-track">
-      <!-- Memory Management Cards -->
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>nim-ORC</span>
-        </div>
-        <div class="feature-description">
-          A modern, compile-time garbage collector designed for performance and determinism.
-        </div>
-        <div class="feature-tag">Memory</div>
-      </div>
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>Async Expression</span>
+                    </div>
+                    <div class="feature-description">
+                        Expressions which evaluate without blocking, crucial for I/O and concurrent tasks.
+                    </div>
+                </div>
 
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>nim-ARC</span>
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>Deferred Expressions</span>
+                    </div>
+                    <div class="feature-description">
+                        Expressions that evaluate automatically when the surrounding scope exits, useful for cleanup.
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="feature-description">
-          Provides automatic memory management with predictable deallocation.
-        </div>
-        <div class="feature-tag">Memory</div>
-      </div>
 
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>nim-Boehm</span>
-        </div>
-        <div class="feature-description">
-          A conservative garbage collector for compatibility and ease of use with C FFI.
-        </div>
-        <div class="feature-tag">Memory</div>
-      </div>
+        <!-- Memory Management Stack -->
+        <div class="kanban-stack">
+            <div class="kanban-header">
+                <h2 class="kanban-title">Memory Management</h2>
+                <button class="toggle-button" aria-expanded="false">+</button>
+            </div>
+            <div class="kanban-content">
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>nim-ORC</span>
+                    </div>
+                    <div class="feature-description">
+                        A modern, compile-time garbage collector designed for performance and determinism.
+                    </div>
+                </div>
 
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>nim-Go</span>
-        </div>
-        <div class="feature-description">
-          A concurrent, tri-color mark-and-sweep garbage collector for highly concurrent applications.
-        </div>
-        <div class="feature-tag">Memory</div>
-      </div>
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>nim-ARC</span>
+                    </div>
+                    <div class="feature-description">
+                        Provides automatic memory management with predictable deallocation.
+                    </div>
+                </div>
 
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Implicit Ownership</span>
-        </div>
-        <div class="feature-description">
-          Graphite's unique memory model aiming for C-like performance with Rust-like safety, without explicit annotations.
-        </div>
-        <div class="feature-tag">Memory</div>
-      </div>
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>nim-Boehm</span>
+                    </div>
+                    <div class="feature-description">
+                        A conservative garbage collector for compatibility and ease of use with C FFI.
+                    </div>
+                </div>
 
-      <!-- Constructs Cards -->
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Tuples</span>
-        </div>
-        <div class="feature-description">
-          Fixed-size collections of anonymous fields for structured data organization.
-        </div>
-        <div class="feature-tag">Constructs</div>
-      </div>
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>nim-Go</span>
+                    </div>
+                    <div class="feature-description">
+                        A concurrent, tri-color mark-and-sweep garbage collector for highly concurrent applications.
+                    </div>
+                </div>
 
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Interfaces</span>
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>Implicit Ownership</span>
+                    </div>
+                    <div class="feature-description">
+                        Graphite's unique memory model aiming for C-like performance with Rust-like safety, without explicit annotations.
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="feature-description">
-          Dataless views which map identity onto tuples by shape and provide behavior.
-        </div>
-        <div class="feature-tag">Constructs</div>
-      </div>
 
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Structs</span>
-        </div>
-        <div class="feature-description">
-          Traditional Struct implementation as a Tuple/Interface pair.
-        </div>
-        <div class="feature-tag">Constructs</div>
-      </div>
+        <!-- Constructs Stack -->
+        <div class="kanban-stack">
+            <div class="kanban-header">
+                <h2 class="kanban-title">Constructs</h2>
+                <button class="toggle-button" aria-expanded="false">+</button>
+            </div>
+            <div class="kanban-content">
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>Tuples</span>
+                    </div>
+                    <div class="feature-description">
+                        Fixed-size collections of anonymous fields for structured data organization.
+                    </div>
+                </div>
 
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Classes</span>
-        </div>
-        <div class="feature-description">
-          Typical instantiable namespace for object-oriented programming patterns.
-        </div>
-        <div class="feature-tag">Constructs</div>
-      </div>
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>Interfaces</span>
+                    </div>
+                    <div class="feature-description">
+                        Dataless views which map identity onto tuples by shape and provide behavior.
+                    </div>
+                </div>
 
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Actors</span>
-        </div>
-        <div class="feature-description">
-          Threaded, memory isolated Classes for safe concurrent programming.
-        </div>
-        <div class="feature-tag">Constructs</div>
-      </div>
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>Structs</span>
+                    </div>
+                    <div class="feature-description">
+                        Traditional Struct implementation as a Tuple/Interface pair.
+                    </div>
+                </div>
 
-      <!-- Concurrency Cards -->
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Coroutines</span>
-        </div>
-        <div class="feature-description">
-          Lightweight, cooperative functions that allow for non-blocking asynchronous programming.
-        </div>
-        <div class="feature-tag">Concurrency</div>
-      </div>
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>Classes</span>
+                    </div>
+                    <div class="feature-description">
+                        Typical instantiable namespace for object-oriented programming patterns.
+                    </div>
+                </div>
 
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Work Groups</span>
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>Actors</span>
+                    </div>
+                    <div class="feature-description">
+                        Threaded, memory isolated Classes for safe concurrent programming.
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="feature-description">
-          Mechanism for grouping and managing related tasks or threads for efficient parallel processing.
-        </div>
-        <div class="feature-tag">Concurrency</div>
-      </div>
 
-      <!-- Core Features Cards -->
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Dynamic Containers</span>
-        </div>
-        <div class="feature-description">
-          Flexible data structures that can grow or shrink at runtime, like lists and hash maps.
-        </div>
-        <div class="feature-tag">Core</div>
-      </div>
+        <!-- Concurrency Stack -->
+        <div class="kanban-stack">
+            <div class="kanban-header">
+                <h2 class="kanban-title">Concurrency</h2>
+                <button class="toggle-button" aria-expanded="false">+</button>
+            </div>
+            <div class="kanban-content">
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>Coroutines</span>
+                    </div>
+                    <div class="feature-description">
+                        Lightweight, cooperative functions that allow for non-blocking asynchronous programming.
+                    </div>
+                </div>
 
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Async Expression</span>
+                <div class="feature-card">
+                    <div class="feature-title">
+                        <span>Work Groups</span>
+                    </div>
+                    <div class="feature-description">
+                        Mechanism for grouping and managing related tasks or threads for efficient parallel processing.
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="feature-description">
-          Expressions which evaluate without blocking, crucial for I/O and concurrent tasks.
-        </div>
-        <div class="feature-tag">Core</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Deferred Expressions</span>
-        </div>
-        <div class="feature-description">
-          Expressions that evaluate automatically when the surrounding scope exits, useful for cleanup.
-        </div>
-        <div class="feature-tag">Core</div>
-      </div>
-
-      <!-- Duplicate the cards for seamless looping -->
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>nim-ORC</span>
-        </div>
-        <div class="feature-description">
-          A modern, compile-time garbage collector designed for performance and determinism.
-        </div>
-        <div class="feature-tag">Memory</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>nim-ARC</span>
-        </div>
-        <div class="feature-description">
-          Provides automatic memory management with predictable deallocation.
-        </div>
-        <div class="feature-tag">Memory</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>nim-Boehm</span>
-        </div>
-        <div class="feature-description">
-          A conservative garbage collector for compatibility and ease of use with C FFI.
-        </div>
-        <div class="feature-tag">Memory</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>nim-Go</span>
-        </div>
-        <div class="feature-description">
-          A concurrent, tri-color mark-and-sweep garbage collector for highly concurrent applications.
-        </div>
-        <div class="feature-tag">Memory</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Implicit Ownership</span>
-        </div>
-        <div class="feature-description">
-          Graphite's unique memory model aiming for C-like performance with Rust-like safety, without explicit annotations.
-        </div>
-        <div class="feature-tag">Memory</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Tuples</span>
-        </div>
-        <div class="feature-description">
-          Fixed-size collections of anonymous fields for structured data organization.
-        </div>
-        <div class="feature-tag">Constructs</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Interfaces</span>
-        </div>
-        <div class="feature-description">
-          Dataless views which map identity onto tuples by shape and provide behavior.
-        </div>
-        <div class="feature-tag">Constructs</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Structs</span>
-        </div>
-        <div class="feature-description">
-          Traditional Struct implementation as a Tuple/Interface pair.
-        </div>
-        <div class="feature-tag">Constructs</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Classes</span>
-        </div>
-        <div class="feature-description">
-          Typical instantiable namespace for object-oriented programming patterns.
-        </div>
-        <div class="feature-tag">Constructs</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Actors</span>
-        </div>
-        <div class="feature-description">
-          Threaded, memory isolated Classes for safe concurrent programming.
-        </div>
-        <div class="feature-tag">Constructs</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Coroutines</span>
-        </div>
-        <div class="feature-description">
-          Lightweight, cooperative functions that allow for non-blocking asynchronous programming.
-        </div>
-        <div class="feature-tag">Concurrency</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Work Groups</span>
-        </div>
-        <div class="feature-description">
-          Mechanism for grouping and managing related tasks or threads for efficient parallel processing.
-        </div>
-        <div class="feature-tag">Concurrency</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Dynamic Containers</span>
-        </div>
-        <div class="feature-description">
-          Flexible data structures that can grow or shrink at runtime, like lists and hash maps.
-        </div>
-        <div class="feature-tag">Core</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Async Expression</span>
-        </div>
-        <div class="feature-description">
-          Expressions which evaluate without blocking, crucial for I/O and concurrent tasks.
-        </div>
-        <div class="feature-tag">Core</div>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-title">
-          <span>Deferred Expressions</span>
-        </div>
-        <div class="feature-description">
-          Expressions that evaluate automatically when the surrounding scope exits, useful for cleanup.
-        </div>
-        <div class="feature-tag">Core</div>
-      </div>
-      </div>
     </div>
-  </div>
+
+    <script>
+        // Get all toggle buttons and content areas
+        const toggleButtons = document.querySelectorAll('.toggle-button');
+
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Get the parent .kanban-stack of the clicked button
+                const kanbanStack = button.closest('.kanban-stack');
+                // Get the .kanban-content element within that stack
+                const kanbanContent = kanbanStack.querySelector('.kanban-content');
+
+                // Toggle the 'expanded' class on the content
+                kanbanContent.classList.toggle('expanded');
+
+                // Update the button text and aria-expanded attribute
+                const isExpanded = kanbanContent.classList.contains('expanded');
+                button.textContent = isExpanded ? '−' : '+'; // Using minus for collapse
+                button.setAttribute('aria-expanded', isExpanded);
+
+                // Toggle the 'rotated' class for the plus sign icon
+                button.classList.toggle('rotated', isExpanded);
+            });
+        });
+    </script>
 </body>
 </html>
