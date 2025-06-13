@@ -22,7 +22,7 @@ main {
     gap: 30px; /* Space between the card and the social buttons */
     animation: fadeIn 2s ease-in-out;
     max-width: 90%; /* Max width for responsiveness */
-    width: 500px; /* Preferred width */
+    width: 600px; /* Preferred width */
 }
 
 /* Styles for the new card/panel */
@@ -56,6 +56,8 @@ code {
     margin-top: 2rem;
     border-radius: 8px; /* Rounded code block */
     display: inline-block;
+    width: 70%;
+    /*white-space: pre; /* important for line breaks to show */
 }
 
 /* Button container styling */
@@ -101,6 +103,16 @@ code {
     animation: blink 1s steps(1) infinite;
     vertical-align: text-top;
     margin-left: 2px;
+}
+
+.keyword {
+    color: #569CD6; /* A nice VS Code-style blue for keywords */
+    font-weight: bold;
+}
+
+.comment {
+    color: #6A9955; /* A classic muted green for comments, like in VS Code */
+    font-style: italic;
 }
 
 @keyframes blink {

@@ -1,32 +1,11 @@
 const features = [
-    "Feature: Tuples...",
-    "Feature: Interfaces...",
-    "Feature: Structs...",
-    "Feature: Classes...",
-    "Feature: Actors...",
-    "Feature: Threads...",
-    "Feature: Coroutines...",
-    "Feature: Async...",
-    "Feature: Defer...",
-    "Feature: C FFI...",
-    "Feature: Nim Interop...",
-    "Compiler: LLVM...",
-    "Compiler: GCC...",
-    "Compiler: MSVC...",
-    "Compiler: Fast...",
-    "Compiler: Lightweight...",
-    "Memory: ORC...",
-    "Memory: ARC...",
-    "Memory: Atomic ARC...",
-    "Memory: RefC...",
-    "Memory: Mark&Sweep...",
-    "Memory: Boehm...",
-    "Memory: Ownership..."
+    "feature/tuples", "feature/interfaces", "feature/structs", "feature/classes", "feature/actors", "feature/threads",
+    "feature/coroutines", "feature/async", "feature/defer", "feature/c_ffi", "feature/nim_interop",
+    "compiler/llvm", "compiler/gcc", "compiler/msvc", "compiler/fast", "compiler/lightweight",
+    "memory/orc", "memory/arc", "memory/atomic_arc", "memory/refc", "memory/mark_sweep", "memory/boehm", "memory/ownership"
 ];
 
-const COMING_SOON = "Coming Soon...";
-const targetElement = document.querySelector('code');
-const cursor = document.querySelector('.blinking-cursor');
+const importLine = document.getElementById("import-line");
 let current = "";
 
 function sleep(ms) {
@@ -43,7 +22,7 @@ function getCommonPrefix(a, b) {
 
 async function typeText(fromText, toText) {
     for (let i = fromText.length; i <= toText.length; i++) {
-        updateCode(toText.slice(0, i));
+        updateImportLine(toText.slice(0, i));
         await sleep(100);
     }
 }
@@ -51,14 +30,15 @@ async function typeText(fromText, toText) {
 async function eraseText(fromText, toText) {
     const commonPrefix = getCommonPrefix(fromText, toText);
     for (let i = fromText.length; i > commonPrefix.length; i--) {
-        updateCode(fromText.slice(0, i - 1));
+        updateImportLine(fromText.slice(0, i - 1));
         await sleep(75);
     }
     return commonPrefix;
 }
 
-function updateCode(text) {
-    targetElement.childNodes[0].nodeValue = "// " + text;
+function updateImportLine(feature) {
+    const importLine = document.getElementById("import-line");
+    importLine.innerHTML = `<span class="keyword">import</span> ${feature}`;
 }
 
 function getRandomFeatures(count) {
@@ -68,13 +48,12 @@ function getRandomFeatures(count) {
 
 async function showFeature(next) {
     const commonPrefix = await eraseText(current, next);
-    await sleep(current === COMING_SOON ? 1500 : 500);
+    await sleep(500);
     await typeText(commonPrefix, next);
     current = next;
 }
 
 async function loopFeatures() {
-    updateCode(""); // Clear initially
     const initial = getRandomFeatures(1)[0];
     await typeText("", initial);
     current = initial;
@@ -85,16 +64,7 @@ async function loopFeatures() {
             await sleep(1500);
             await showFeature(feature);
         }
-
-        // Show "Coming Soon..." at end of batch
-        await sleep(1500);
-        await showFeature(COMING_SOON);
     }
 }
 
-// Initialize the nodeValue of the code block
-const initialText = document.createTextNode("");
-targetElement.insertBefore(initialText, cursor);
-
-// Start the typing loop
 loopFeatures();
