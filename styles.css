@@ -1,0 +1,146 @@
+/* General Body and HTML styles */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #1a1a1a; /* Very dark charcoal */
+    color: #b0b0b0; /* Off-white for general text */
+    display: flex;
+    flex-direction: column; /* Allow content to stack vertically */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px; /* Add some padding for smaller screens */
+    box-sizing: border-box; /* Include padding in element's total width and height */
+}
+
+/* Main container for the content */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px; /* Space between the card and the social buttons */
+    animation: fadeIn 2s ease-in-out;
+    max-width: 90%; /* Max width for responsiveness */
+    width: 500px; /* Preferred width */
+}
+
+/* Styles for the new card/panel */
+.card {
+    background-color: #282828; /* Darker charcoal for the card */
+    padding: 40px 30px;
+    border-radius: 12px; /* Slightly more rounded corners */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); /* Stronger, darker shadow */
+    width: 100%; /* Take full width of its parent (main) */
+    box-sizing: border-box;
+}
+
+/* Header styling */
+h1 {
+    font-size: 3.5rem; /* Slightly adjusted size */
+    font-weight: 700;
+    color: #aab8c2; /* Pure white for the main title */
+    margin-top: 0;
+    margin-bottom: 0;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
+}
+
+code {
+    text-align: left;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.2rem;
+    color: #b0b0b0; /* Light gray for the comment */
+    background-color: #3a3a3a; /* Slightly lighter charcoal for code background */
+    padding: 2rem;
+    margin-top: 2rem;
+    border-radius: 8px; /* Rounded code block */
+    display: inline-block;
+}
+
+/* Button container styling */
+.button-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    justify-content: center;
+    gap: 20px; /* Space between buttons */
+    width: 100%; /* Take full width of its parent (main) */
+}
+
+/* Button styling */
+.btn {
+    font-family: 'Roboto Mono', monospace;
+    text-decoration: none;
+    color: #aab8c2; /* White text for buttons */
+    background-color: #4a4a4a; /* Medium charcoal for buttons */
+    padding: 14px 28px; /* Slightly larger padding */
+    border-radius: 8px;
+    font-size: 1.1rem; /* Slightly larger font size */
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+    border: 1px solid #5a5a5a; /* Subtle border */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Button shadow */
+}
+
+.btn:hover {
+    background-color: #606060; /* Lighter charcoal on hover */
+    transform: translateY(-3px); /* More pronounced lift on hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+}
+
+/* Icon styling within buttons */
+.btn i {
+    margin-right: 8px; /* Space between icon and text */
+}
+
+.blinking-cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1.1em;
+    background-color: #e0e0e0;
+    animation: blink 1s steps(1) infinite;
+    vertical-align: text-top;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Keyframe animation for fade-in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.5rem; /* Adjust header size for small screens */
+    }
+
+    code {
+        font-size: 1rem; /* Adjust code font size for small screens */
+    }
+
+    .card {
+        padding: 30px 20px; /* Adjust card padding for small screens */
+    }
+
+    .btn {
+        padding: 10px 20px; /* Adjust button padding for small screens */
+        font-size: 1rem;
+    }
+
+    .button-container {
+        flex-direction: column; /* Stack buttons vertically on very small screens */
+        gap: 15px;
+    }
+}
